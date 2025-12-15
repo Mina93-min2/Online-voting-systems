@@ -1,0 +1,57 @@
+{
+  "elections": [
+    {
+      "id": "presidential-2025",
+      "title": "Presidential Election 2025",
+      "description": "National presidential election to choose the next president",
+      "startDate": "2025-01-01",
+      "endDate": "2025-01-15",
+      "candidates": [
+        {
+          "id": "aly",
+          "name": "Aly Waleed",
+          "party": "Democratic Party",
+          "bio": "Former governor with 15 years of public service experience",
+          "votes": 0
+        },
+        {
+          "id": "adel",
+          "name": "Adel Morad",
+          "party": "Republican Party",
+          "bio": "Business leader focused on economic growth and innovation",
+          "votes": 1
+        },
+        {
+          "id": "mohamed",
+          "name": "Mohamed Mohab",
+          "party": "Green Party",
+          "bio": "Environmental activist committed to sustainable policies",
+          "votes": 1
+        },
+        {
+          "id": "mina",
+          "name": "Mina Wagih",
+          "party": "Independent",
+          "bio": "Community organizer with grassroots support",
+          "votes": 0
+        }
+      ]
+    },
+    {
+      "id": "hii",
+      "title": "hii",
+      "description": "hi",
+      "startDate": "0999-09-09",
+      "endDate": "0009-09-09",
+      "candidates": [
+        {
+          "id": "lol",
+          "name": "lol",
+          "party": "lol",
+          "bio": "lol",
+          "votes": 2
+        }
+      ]
+    }
+  ]
+}

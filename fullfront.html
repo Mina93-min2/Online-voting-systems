@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Blue Voting System - Combined SPA (Vanilla JS)</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-blue': '#2563EB',
+                        'dark-bg': '#2C3E50',
+                        'input-border': '#D1D5DB',
+                    },
+                },
+            }
+        }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-blue-page1: #0056b3;
+            --background-light: #F0F5FF;
+            --button-hover: #004085;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: var(--background-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page-view {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            overflow-y: auto;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        #landingPage {
+            align-items: center;
+        }
+
+        .candidate-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .candidate-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Landing Page -->
+    <div id="landingPage" class="page-view flex justify-center">
+        <div
+            class="hero-section max-w-xl mx-auto p-10 text-left bg-white rounded-xl shadow-lg transition-all duration-300">
+            <h1 class="text-6xl font-extrabold leading-tight text-gray-900 mb-6">
+                Secure Electronic <br />
+                <span class="text-blue-500">Voting System</span>
+            </h1>
+            <p class="text-xl leading-relaxed text-gray-600 mb-10">
+                Participate in democracy with confidence. Our platform ensures secure, transparent, and accessible
+                voting for all citizens.
+            </p>
+
+            <div class="flex gap-4">
+                <button onclick="navigateTo('electionsList')"
+                    class="w-48 py-4 bg-primary-blue text-white rounded-lg font-bold shadow-md hover:bg-blue-700 transition duration-200">
+                    View Elections
+                </button>
+                <button onclick="navigateTo('adminDashboard')"
+                    class="w-48 py-4 bg-white text-primary-blue border-2 border-primary-blue rounded-lg font-bold hover:bg-gray-100 transition duration-200">
+                    Admin Access
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Page -->
+    <div id="featuresPage" class="page-view flex justify-center">
+        <div class="container p-8 max-w-6xl">
+            <div class="mb-10">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2 text-center">Why Choose Our System?</h1>
+                <p class="text-gray-600 text-center">Built with security, transparency, and accessibility at its core
+                </p>
+            </div>
+            <!-- Features Cards -->
+            <div class="features flex flex-wrap justify-center gap-6">
+                <div class="card w-full md:w-80 bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div
+                        class="icon-box bg-blue-100 w-16 h-16 mx-auto flex items-center justify-center rounded-full mb-4">
+                        <i class="fa-solid fa-user-secret text-3xl text-primary-blue"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-2">Secure & Encrypted</h2>
+                    <p class="text-gray-600">All votes are encrypted and stored anonymously using advanced security
+                        protocols.</p>
+                </div>
+                <div class="card w-full md:w-80 bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div
+                        class="icon-box bg-blue-100 w-16 h-16 mx-auto flex items-center justify-center rounded-full mb-4">
+                        <i class="fa-solid fa-square-poll-vertical text-3xl text-primary-blue"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-2">Easy to Use</h2>
+                    <p class="text-gray-600">Intuitive interface makes voting simple and accessible for everyone.</p>
+                </div>
+                <div class="card w-full md:w-80 bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div
+                        class="icon-box bg-blue-100 w-16 h-16 mx-auto flex items-center justify-center rounded-full mb-4">
+                        <i class="fa-solid fa-check text-3xl text-primary-blue"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-2">Verified Results</h2>
+                    <p class="text-gray-600">Transparent vote validation ensures integrity and builds trust in the
+                        process.</p>
+                </div>
+            </div>
+            <div class="text-center mt-10">
+                <button onclick="navigateTo('electionsList')"
+                    class="py-3 px-8 bg-primary-blue text-white rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
+                    Use Vote System
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elections List Page -->
+    <div id="electionsList" class="page-view flex justify-center">
+        <div class="main-container w-full max-w-6xl p-8 bg-white rounded-xl shadow-lg">
+            <div class="page-wrapper bg-dark-bg p-8 rounded-xl">
+                <header class="mb-8">
+                    <button onclick="navigateTo('landingPage')"
+                        class="text-blue-400 hover:text-blue-200 text-sm font-medium mb-4 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Back to Home
+                    </button>
+                    <h1 class="text-4xl font-bold text-white mb-2">Active Elections</h1>
+                    <p class="text-gray-300 text-lg">Choose an election to view candidates and cast your vote</p>
+                </header>
+                <div id="elections-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voting Page -->
+    <div id="votingPage" class="page-view flex justify-center">
+        <div class="max-w-4xl w-full">
+            <header class="mb-8">
+                <button onclick="navigateTo('electionsList')"
+                    class="text-primary-blue hover:text-blue-800 text-sm font-medium flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to Elections
+                </button>
+                <h1 id="votingPageTitle" class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-4"></h1>
+                <p class="text-gray-500 mt-1">Select your preferred candidate and submit your vote</p>
+            </header>
+            <div id="candidate-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+            <div id="status-message" class="mt-8 p-4 text-center rounded-lg shadow-md hidden" role="alert"></div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="page-view flex justify-center bg-gray-100">
+        <div class="max-w-4xl mx-auto w-full">
+            <h1 class="text-3xl font-bold text-gray-900 mb-1">Admin Dashboard</h1>
+            <p class="text-base text-gray-600 mb-6">Manage elections and candidates</p>
+
+            <!-- Admin Tabs -->
+            <div class="flex bg-white rounded-t-lg shadow-sm border-b border-gray-200">
+                <button id="addElectionTab"
+                    class="py-3 px-6 text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out rounded-tl-lg"
+                    onclick="setActiveTab('addElectionTab')">
+                    Add Election
+                </button>
+                <button id="addCandidateTab"
+                    class="py-3 px-6 text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out"
+                    onclick="setActiveTab('addCandidateTab')">
+                    Add Candidate
+                </button>
+                <button id="deleteTab"
+                    class="py-3 px-6 text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out"
+                    onclick="setActiveTab('deleteTab')">
+                    Delete Election/Candidate
+                </button>
+                <button onclick="navigateTo('electionsList')"
+                    class="py-3 px-6 text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out ml-auto">
+                    Go to Elections
+                </button>
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 md:p-10 shadow-lg rounded-b-lg border border-t-0 border-gray-200">
+
+                <!-- Add Election Form -->
+                <div id="electionContent" class="hidden">
+                    <form id="electionForm">
+                        <h1 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Create New Election</h1>
+                        <p class="text-sm text-gray-500 mb-8">Add a new election to the system</p>
+
+                        <div class="mb-6">
+                            <label for="electionTitle" class="block text-sm font-medium text-gray-700 mb-2">Election
+                                Title</label>
+                            <input type="text" id="electionTitle" name="electionTitle"
+                                placeholder="e.g., Presidential Election 2025" required
+                                class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out">
+                        </div>
+                        <div class="mb-6">
+                            <label for="description"
+                                class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea id="description" name="description" rows="4"
+                                placeholder="Brief description of the election" required
+                                class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out resize-y"></textarea>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-6 mb-10">
+                            <div class="flex-1">
+                                <label for="startDate" class="block text-sm font-medium text-gray-700 mb-2">Start
+                                    Date</label>
+                                <input type="date" id="startDate" name="startDate" required
+                                    class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out appearance-none">
+                            </div>
+                            <div class="flex-1">
+                                <label for="endDate" class="block text-sm font-medium text-gray-700 mb-2">End
+                                    Date</label>
+                                <input type="date" id="endDate" name="endDate" required
+                                    class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out appearance-none">
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 px-4 bg-primary-blue text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-150 ease-in-out text-base">Add
+                            Election</button>
+                    </form>
+                </div>
+
+                <!-- Add Candidate Form -->
+                <div id="candidateContent" class="hidden">
+                    <form id="candidateForm">
+                        <h1 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Add New Candidate</h1>
+                        <p class="text-sm text-gray-500 mb-8">Register a candidate for an election</p>
+
+                        <div class="mb-6">
+                            <label for="candidateName" class="block text-sm font-medium text-gray-700 mb-2">Candidate
+                                Name</label>
+                            <input type="text" id="candidateName" name="candidateName" placeholder="Full name" required
+                                class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out">
+                        </div>
+                        <div class="mb-6">
+                            <label for="party" class="block text-sm font-medium text-gray-700 mb-2">Party</label>
+                            <input type="text" id="party" name="party" placeholder="Political party or affiliation"
+                                required
+                                class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out">
+                        </div>
+                        <div class="mb-6">
+                            <label for="biography"
+                                class="block text-sm font-medium text-gray-700 mb-2">Biography</label>
+                            <textarea id="biography" name="biography" rows="4"
+                                placeholder="Brief biography and qualifications" required
+                                class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out resize-y"></textarea>
+                        </div>
+                        <div class="mb-10">
+                            <label for="election" class="block text-sm font-medium text-gray-700 mb-2">Election (ID or
+                                Title)</label>
+                            <input type="text" id="election" name="election" placeholder="Election ID or name" required
+                                list="election-names"
+                                class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out">
+                            <datalist id="election-names"></datalist>
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 px-4 bg-primary-blue text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-150 ease-in-out text-base">Add
+                            Candidate</button>
+                    </form>
+                </div>
+
+                <!-- Delete Election/Candidate -->
+                <div id="deleteContent" class="hidden">
+                    <h1 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Delete Election or Candidate</h1>
+                    <p class="text-sm text-gray-500 mb-6">Select an election or candidate to remove from the system.</p>
+
+                    <div class="mb-6">
+                        <label for="deleteElectionSelect" class="block text-sm font-medium text-gray-700 mb-2">Select
+                            Election</label>
+                        <select id="deleteElectionSelect"
+                            class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out">
+                        </select>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="deleteCandidateSelect" class="block text-sm font-medium text-gray-700 mb-2">Select
+                            Candidate (optional)</label>
+                        <select id="deleteCandidateSelect"
+                            class="w-full p-3 border border-input-border rounded-lg shadow-sm focus:ring-primary-blue focus:border-primary-blue transition duration-150 ease-in-out">
+                        </select>
+                    </div>
+
+                    <button onclick="handleDelete()"
+                        class="w-full py-3 px-4 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-150 ease-in-out">Delete
+                        Selected</button>
+                </div>
+            </div>
+
+            <div id="messageBox"
+                class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 z-50">
+                <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
+                    <h3 id="messageTitle" class="text-xl font-bold text-gray-800 mb-3"></h3>
+                    <p id="messageText" class="text-gray-600 mb-4"></p>
+                    <button onclick="closeMessageBox()"
+                        class="w-full py-2 bg-primary-blue text-white font-medium rounded-lg hover:bg-blue-700">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        const ADMIN_API_KEY = 'supersecretkey'; // In a real app, this should come from a secure auth flow
+
+        let electionsData = [];
+
+        async function loadData() {
+            try {
+                const response = await fetch(`${API_URL}/elections`);
+                if (!response.ok) throw new Error('Failed to fetch elections');
+                electionsData = await response.json();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('Could not load elections. Is the backend server running?');
+            }
+        }
+
+        let tabs = {};
+        let electionContent, candidateContent, deleteContent;
+
+        async function navigateTo(pageId) {
+            document.querySelectorAll('.page-view').forEach(p => p.style.display = 'none');
+            const page = document.getElementById(pageId);
+            if (page) page.style.display = 'flex';
+            if (pageId === 'electionsList') await renderElectionsList();
+            if (pageId === 'adminDashboard') await setupAdminDashboard();
+        }
+
+        async function setupAdminDashboard() {
+            tabs = {
+                'addElectionTab': document.getElementById('addElectionTab'),
+                'addCandidateTab': document.getElementById('addCandidateTab'),
+                'deleteTab': document.getElementById('deleteTab')
+            };
+            candidateContent = document.getElementById('candidateContent');
+            electionContent = document.getElementById('electionContent');
+            deleteContent = document.getElementById('deleteContent');
+
+            setActiveTab('addElectionTab');
+            await updateElectionDatalist();
+        }
+
+        function setActiveTab(activeTabId) {
+            for (const id in tabs) {
+                const tab = tabs[id];
+                const contentToShow = id === 'addElectionTab' ? electionContent : id === 'addCandidateTab' ? candidateContent : deleteContent;
+                const contentToHide = id === 'addElectionTab' ? electionContent : id === 'addCandidateTab' ? candidateContent : deleteContent;
+
+                if (id === activeTabId) {
+                    tab.classList.remove('text-gray-700', 'hover:bg-gray-50', 'font-medium');
+                    tab.classList.add('border-b-2', 'border-primary-blue', 'bg-gray-50', 'text-gray-900', 'font-semibold');
+                    contentToShow.classList.remove('hidden');
+                } else {
+                    tab.classList.remove('border-b-2', 'border-primary-blue', 'bg-gray-50', 'text-gray-900', 'font-semibold');
+                    tab.classList.add('text-gray-700', 'hover:bg-gray-50', 'font-medium');
+                    contentToHide.classList.add('hidden');
+                }
+            }
+
+            if (activeTabId === 'addCandidateTab') updateElectionDatalist();
+            if (activeTabId === 'deleteTab') populateDeleteOptions();
+            closeMessageBox();
+        }
+
+        async function updateElectionDatalist() {
+            await loadData();
+            const datalist = document.getElementById('election-names');
+            datalist.innerHTML = '';
+            electionsData.forEach(e => {
+                const option = document.createElement('option');
+                option.value = e.title;
+                datalist.appendChild(option);
+            });
+        }
+
+        // Election/Candidate Forms
+        document.getElementById('electionForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const title = document.getElementById('electionTitle').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            if (!title) return alert('Title required.');
+
+            try {
+                const response = await fetch(`${API_URL}/admin/elections`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-api-key': ADMIN_API_KEY },
+                    body: JSON.stringify({ title, description, startDate, endDate })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Failed to add election');
+
+                e.target.reset();
+                alert('Election added!');
+                await updateElectionDatalist();
+            } catch (err) {
+                alert(err.message);
+            }
+        });
+
+        document.getElementById('candidateForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const name = document.getElementById('candidateName').value.trim();
+            const party = document.getElementById('party').value.trim();
+            const bio = document.getElementById('biography').value.trim();
+            const electionTitle = document.getElementById('election').value.trim();
+            const election = electionsData.find(ev => ev.title === electionTitle);
+            if (!election) return alert('Election not found.');
+            if (!election) return alert('Election not found.');
+
+            try {
+                const response = await fetch(`${API_URL}/admin/elections/${election.id}/candidates`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-api-key': ADMIN_API_KEY },
+                    body: JSON.stringify({ name, party, bio })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Failed to add candidate');
+
+                e.target.reset();
+                alert('Candidate added!');
+            } catch (err) {
+                alert(err.message);
+            }
+        });
+
+        // Delete Tab
+        async function populateDeleteOptions() {
+            await loadData();
+            const electionSelect = document.getElementById('deleteElectionSelect');
+            const candidateSelect = document.getElementById('deleteCandidateSelect');
+            electionSelect.innerHTML = ''; candidateSelect.innerHTML = '<option value="">-- Select candidate after choosing election --</option>';
+
+            electionsData.forEach(e => {
+                const option = document.createElement('option'); option.value = e.id; option.textContent = e.title; electionSelect.appendChild(option);
+            });
+
+            electionSelect.onchange = () => {
+                const electionId = electionSelect.value;
+                candidateSelect.innerHTML = '<option value="">-- Delete whole election or select candidate --</option>';
+                const election = electionsData.find(e => e.id === electionId);
+                if (!election || !Array.isArray(election.candidates)) return;
+                election.candidates.forEach(c => {
+                    const option = document.createElement('option'); option.value = c.id; option.textContent = c.name; candidateSelect.appendChild(option);
+                });
+            };
+        }
+
+        async function handleDelete() {
+            const electionId = document.getElementById('deleteElectionSelect').value;
+            const candidateId = document.getElementById('deleteCandidateSelect').value;
+            if (!electionId) return showMessageBox("Error", "Please select an election to delete.");
+            loadData();
+
+            if (candidateId) {
+                const election = electionsData.find(e => e.id === electionId);
+                const index = election.candidates.findIndex(c => c.id === candidateId);
+                if (index === -1) return showMessageBox("Error", "Candidate not found.");
+                const removed = election.candidates.splice(index, 1);
+                saveData();
+                showMessageBox("Deleted", `Candidate "${removed[0].name}" has been removed from election "${election.title}".`);
+            } else {
+                const index = electionsData.findIndex(e => e.id === electionId);
+                if (index === -1) return showMessageBox("Error", "Election not found.");
+                const removed = electionsData.splice(index, 1);
+                saveData();
+                showMessageBox("Deleted", `Election "${removed[0].title}" has been removed from the system.`);
+            }
+            await populateDeleteOptions();
+            await renderElectionsList();
+        }
+
+        function showMessageBox(title, text) {
+            document.getElementById('messageTitle').textContent = title;
+            document.getElementById('messageText').textContent = text;
+            document.getElementById('messageBox').classList.remove('hidden');
+        }
+        function closeMessageBox() { document.getElementById('messageBox').classList.add('hidden'); }
+
+        // Render Elections List
+        async function renderElectionsList() {
+            await loadData();
+            const grid = document.getElementById('elections-grid');
+            grid.innerHTML = '';
+            electionsData.forEach(e => {
+                const card = document.createElement('div');
+                card.className = 'candidate-card p-6 bg-white rounded-xl shadow-lg cursor-pointer transition';
+                card.innerHTML = `<h2 class="text-xl font-bold text-gray-900 mb-2">${e.title}</h2>
+        <p class="text-gray-600 mb-4">${e.description}</p>
+        <p class="text-sm text-gray-400 mb-2">Start: ${e.startDate}</p>
+        <p class="text-sm text-gray-400 mb-4">End: ${e.endDate}</p>
+        <button onclick="startVoting('${e.id}')" class="py-2 px-4 bg-primary-blue text-white rounded-lg hover:bg-blue-700 transition duration-150">Vote Now</button>`;
+                grid.appendChild(card);
+            });
+        }
+
+        // Voting Page
+        async function startVoting(electionId) {
+            await loadData();
+            const election = electionsData.find(e => e.id === electionId);
+            if (!election) return alert('Election not found');
+            document.getElementById('votingPageTitle').textContent = election.title;
+
+            const grid = document.getElementById('candidate-grid');
+            grid.innerHTML = '';
+            election.candidates.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'candidate-card p-6 bg-white rounded-xl shadow-lg cursor-pointer hover:shadow-xl transition';
+                card.innerHTML = `<h2 class="text-xl font-semibold text-gray-900 mb-1">${c.name}</h2>
+        <p class="text-gray-500 mb-1">Party: ${c.party}</p>
+        <p class="text-gray-400 text-sm">${c.bio}</p>
+        <button onclick="submitVote('${electionId}','${c.id}')" class="mt-4 py-2 px-4 bg-primary-blue text-white rounded-lg hover:bg-blue-700 transition duration-150">Vote</button>`;
+                grid.appendChild(card);
+            });
+
+            navigateTo('votingPage');
+        }
+
+        async function submitVote(electionId, candidateId) {
+            const statusMessage = document.getElementById('status-message');
+            statusMessage.classList.remove('hidden', 'bg-green-100', 'bg-red-100', 'text-green-800', 'text-red-800');
+            statusMessage.textContent = 'Submitting your vote...';
+
+            // Check if user has already voted for this election
+            const votedElections = JSON.parse(localStorage.getItem('votedElections') || '{}');
+            if (votedElections[electionId]) {
+                statusMessage.classList.add('bg-red-100', 'text-red-800');
+                statusMessage.textContent = 'You have already voted in this election.';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/elections/${electionId}/candidates/${candidateId}/vote`, {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    // Mark as voted locally just for UI feedback (optional, or rely on server)
+                    votedElections[electionId] = candidateId;
+                    localStorage.setItem('votedElections', JSON.stringify(votedElections));
+
+                    statusMessage.classList.add('bg-green-100', 'text-green-800');
+                    statusMessage.textContent = 'Your vote has been successfully submitted. Thank you for voting!';
+                } else {
+                    throw new Error('Vote submission failed');
+                }
+            } catch (error) {
+                statusMessage.classList.add('bg-red-100', 'text-red-800');
+                statusMessage.textContent = 'There was an error submitting your vote. Please try again.';
+            }
+        }
+
+
+        navigateTo('landingPage');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+{
+  "users": [
+    {
+      "id": "admin-001",
+      "email": "admin",
+      "password": "admin",
+      "role": "admin",
+      "fullName": "System Administrator"
+    },
+    {
+      "id": "user-001",
+      "email": "user",
+      "password": "user",
+      "role": "user",
+      "fullName": "Default User"
+    },
+    {
+      "id": "b5083027-0c9c-48c3-90fb-5813c62c6e91",
+      "email": "lol",
+      "password": "lol",
+      "fullName": "hi",
+      "role": "user"
+    },
+    {
+      "id": "e2251a32-f842-48b6-b9fe-27796e3d170d",
+      "email": "admin33",
+      "password": "admin",
+      "fullName": "asd",
+      "role": "user"
+    }
+  ]
+}

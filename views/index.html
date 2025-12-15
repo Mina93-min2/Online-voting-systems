@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Blue - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes floatReverse {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(20px);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes scaleUpDown {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.8;
+            }
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e293b 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite, fadeIn 0.5s ease-in;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Background Elements */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.1);
+            filter: blur(60px);
+        }
+
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .bg-circle:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            top: 60%;
+            right: 10%;
+            background: rgba(139, 92, 246, 0.1);
+            animation: floatReverse 10s ease-in-out infinite;
+        }
+
+        .bg-circle:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            bottom: 10%;
+            left: 50%;
+            background: rgba(16, 185, 129, 0.1);
+            animation: float 12s ease-in-out infinite;
+        }
+
+        .bg-circle:nth-child(4) {
+            width: 350px;
+            height: 350px;
+            top: 30%;
+            right: 30%;
+            background: rgba(59, 130, 246, 0.08);
+            animation: scaleUpDown 15s ease-in-out infinite;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .particle:nth-child(5) {
+            top: 20%;
+            left: 20%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(6) {
+            top: 40%;
+            left: 70%;
+            animation: floatReverse 8s ease-in-out infinite;
+        }
+
+        .particle:nth-child(7) {
+            top: 70%;
+            left: 30%;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        .particle:nth-child(8) {
+            top: 50%;
+            left: 80%;
+            animation: floatReverse 9s ease-in-out infinite;
+        }
+
+        .particle:nth-child(9) {
+            top: 80%;
+            left: 60%;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .particle:nth-child(10) {
+            top: 15%;
+            left: 50%;
+            animation: floatReverse 10s ease-in-out infinite;
+        }
+
+        /* Mouse cursor trail effect */
+        .cursor-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            filter: blur(40px);
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.6);
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(2);
+            }
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: fadeInUp 0.6s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-title {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Fix for select option color */
+        select.form-input option {
+            background-color: #1e293b;
+            color: white;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out 0.5s backwards;
+        }
+
+        .login-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-msg {
+            color: #ef4444;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            animation: shake 0.5s ease;
+        }
+
+        .success-msg {
+            color: #10b981;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .toggle-link {
+            color: #3b82f6;
+            text-align: center;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .toggle-link:hover {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .icon-animate {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Mouse cursor glow effect -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <div class="login-card">
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <i class="fa-solid fa-vote-yea icon-animate" style="font-size: 3rem; color: #3b82f6;"></i>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="loginSection">
+            <h1 class="login-title">Welcome Back</h1>
+            <p class="login-subtitle">Enter your credentials to access the system</p>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <input type="text" id="loginEmail" placeholder="Email / Username" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <select id="loginRole" class="form-input" required style="cursor: pointer;">
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="user">Voter</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <p class="toggle-link" onclick="toggleForms()">Don't have an account? <strong>Sign Up</strong></p>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signupSection" class="hidden">
+            <h1 class="login-title">Create Account</h1>
+            <p class="login-subtitle">Register to participate in elections</p>
+
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <input type="text" id="signupFullName" placeholder="Full Name" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="signupNationalId" placeholder="National ID" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="signupEmail" placeholder="Email / Username" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="signupPassword" placeholder="Password" required class="form-input">
+                </div>
+                <input type="hidden" id="signupRole" value="user">
+                <button type="submit" class="login-btn">Sign Up</button>
+            </form>
+            <p class="toggle-link" onclick="toggleForms()">Already have an account? <strong>Login</strong></p>
+        </div>
+
+        <p id="errorMsg" class="error-msg hidden"></p>
+        <p id="successMsg" class="success-msg hidden"></p>
+    </div>
+
+    <script>
+        // Mouse animation effects
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = 0;
+        let mouseY = 0;
+        let glowX = 0;
+        let glowY = 0;
+
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Create trail effect
+            createTrail(mouseX, mouseY);
+        });
+
+        // Smooth follow animation for cursor glow
+        function animateGlow() {
+            const speed = 0.1;
+            glowX += (mouseX - glowX) * speed;
+            glowY += (mouseY - glowY) * speed;
+
+            cursorGlow.style.left = glowX + 'px';
+            cursorGlow.style.top = glowY + 'px';
+
+            requestAnimationFrame(animateGlow);
+        }
+
+        animateGlow();
+
+        // Create trailing particles
+        let trailTimeout;
+        function createTrail(x, y) {
+            clearTimeout(trailTimeout);
+            trailTimeout = setTimeout(() => {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = x + 'px';
+                trail.style.top = y + 'px';
+                document.body.appendChild(trail);
+
+                setTimeout(() => {
+                    trail.remove();
+                }, 1000);
+            }, 50);
+        }
+
+        // Move background circles based on mouse position
+        const bgCircles = document.querySelectorAll('.bg-circle');
+        document.addEventListener('mousemove', (e) => {
+            const mouseXPercent = e.clientX / window.innerWidth;
+            const mouseYPercent = e.clientY / window.innerHeight;
+
+            bgCircles.forEach((circle, index) => {
+                const speed = (index + 1) * 0.02;
+                const moveX = (mouseXPercent - 0.5) * 100 * speed;
+                const moveY = (mouseYPercent - 0.5) * 100 * speed;
+                
+                circle.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+
+        function toggleForms() {
+            const loginSection = document.getElementById('loginSection');
+            const signupSection = document.getElementById('signupSection');
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+
+            loginSection.classList.toggle('hidden');
+            signupSection.classList.toggle('hidden');
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+        }
+
+        async function handleSignup(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('signupFullName').value.trim();
+            const nationalId = document.getElementById('signupNationalId').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const role = document.getElementById('signupRole').value;
+
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+            errorMsg.innerText = '';
+            successMsg.innerText = '';
+
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, fullName, nationalId, role })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successMsg.innerText = 'Account created successfully! Redirecting to login...';
+                    successMsg.classList.remove('hidden');
+                    
+                    // Clear form
+                    document.getElementById('signupForm').reset();
+                    
+                    // Switch to login after 2 seconds
+                    setTimeout(() => {
+                        toggleForms();
+                        successMsg.classList.add('hidden');
+                    }, 2000);
+                } else {
+                    errorMsg.innerText = data.error || 'Sign up failed';
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (err) {
+                errorMsg.innerText = 'Network error. Please try again.';
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const role = document.getElementById('loginRole').value;
+
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+            errorMsg.innerText = '';
+            successMsg.innerText = '';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, role })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.redirect) {
+                        successMsg.innerText = 'Login successful! Redirecting...';
+                        successMsg.classList.remove('hidden');
+                        setTimeout(() => {
+                            window.location.href = data.redirect;
+                        }, 1000);
+                    }
+                } else {
+                    errorMsg.innerText = data.error || 'Login failed';
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (err) {
+                errorMsg.innerText = 'Network error. Please try again.';
+                errorMsg.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>
