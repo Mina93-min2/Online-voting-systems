@@ -5,6 +5,7 @@ const controller = require('../controllers/electionController');
 // Public
 router.get('/elections', controller.getElections);
 router.get('/elections/:id', controller.getElectionById);
+router.get('/elections/:id/user-vote/:userId', controller.getUserVoteStatus);
 router.post('/elections/:id/candidates/:candidateId/vote', controller.castVote);
 
 // Admin

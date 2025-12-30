@@ -141,6 +141,8 @@
     <script src="/js/app.js"></script>
     <script>
         function logout() {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('votedElections');
             window.location.href = '/';
         }
     </script>

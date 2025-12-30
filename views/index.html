@@ -586,6 +586,10 @@
 
                 if (response.ok) {
                     if (data.redirect) {
+                        // Save userId to localStorage for voting
+                        if (data.userId) {
+                            localStorage.setItem('userId', data.userId);
+                        }
                         successMsg.innerText = 'Login successful! Redirecting...';
                         successMsg.classList.remove('hidden');
                         setTimeout(() => {

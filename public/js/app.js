@@ -257,6 +257,30 @@ async function startVoting(electionId) {
     const titleEl = document.getElementById('votingPageTitle');
     if (titleEl) titleEl.textContent = election.title;
 
+    // Check if user already voted in this election by querying the backend
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+        try {
+            const response = await fetch(`${API_URL}/elections/${electionId}/user-vote/${userId}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.hasVoted) {
+                    // User already voted - disable voting
+                    const titleEl2 = document.getElementById('votingPageTitle');
+                    if (titleEl2) titleEl2.textContent += ' (You have already voted)';
+                }
+                // Store in localStorage for consistency
+                const votedElections = JSON.parse(localStorage.getItem('votedElections') || '{}');
+                if (data.hasVoted) {
+                    votedElections[electionId] = true;
+                    localStorage.setItem('votedElections', JSON.stringify(votedElections));
+                }
+            }
+        } catch (err) {
+            console.log('Could not check voting status:', err);
+        }
+    }
+
     const grid = document.getElementById('candidate-grid');
     if (grid) {
         grid.innerHTML = '';
@@ -281,7 +305,7 @@ async function submitVote(electionId, candidateId) {
         statusMessage.textContent = 'Submitting your vote...';
     }
 
-    // Check if user has already voted for this election
+    // Check if user has already voted for this election (local cache)
     const votedElections = JSON.parse(localStorage.getItem('votedElections') || '{}');
     if (votedElections[electionId]) {
         if (statusMessage) {
@@ -294,8 +318,16 @@ async function submitVote(electionId, candidateId) {
     }
 
     try {
+        // Get userId from localStorage (set during login)
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            throw new Error('User not logged in');
+        }
+
         const response = await fetch(`${API_URL}/elections/${electionId}/candidates/${candidateId}/vote`, {
-            method: 'POST'
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId })
         });
 
         if (response.ok) {
@@ -310,14 +342,22 @@ async function submitVote(electionId, candidateId) {
                 alert('Your vote has been successfully submitted.');
             }
         } else {
-            throw new Error('Vote submission failed');
+            const errorData = await response.json();
+            // Check if it's a duplicate vote error
+            if (errorData.error && errorData.error.includes('Duplicate')) {
+                // Mark as already voted
+                votedElections[electionId] = true;
+                localStorage.setItem('votedElections', JSON.stringify(votedElections));
+                throw new Error('You have already voted in this election.');
+            }
+            throw new Error(errorData.error || 'Vote submission failed');
         }
     } catch (error) {
         if (statusMessage) {
             statusMessage.classList.add('status-error');
-            statusMessage.textContent = 'There was an error submitting your vote. Please try again.';
+            statusMessage.textContent = `Error: ${error.message}`;
         } else {
-            alert('Error submitting vote.');
+            alert(`Error: ${error.message}`);
         }
     }
 }

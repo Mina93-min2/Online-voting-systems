@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Schema Report - Secure Blue Voting System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        main {
+            padding: 40px;
+        }
+        .table-section {
+            margin-bottom: 50px;
+        }
+        .table-header {
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        .table-info {
+            background: #f0f4ff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 3px;
+        }
+        .table-info p {
+            margin: 5px 0;
+        }
+        .columns-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .columns-table th {
+            background: #764ba2;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        .columns-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        .columns-table tr:hover {
+            background: #f9f9f9;
+        }
+        .pk {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .fk {
+            color: #3498db;
+            font-weight: bold;
+        }
+        .summary {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .summary h3 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+        .summary p {
+            color: #155724;
+            margin: 5px 0;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            border-top: 3px solid #667eea;
+        }
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stat-card .label {
+            color: #666;
+            margin-top: 10px;
+        }
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗳️ Database Schema Report</h1>
+            <p>Secure Blue Voting System</p>
+        </header>
+        
+        <main>
+            <div class="summary">
+                <h3>✅ Database Status</h3>
+                <p>Database Name: <strong>secure_voting_db</strong></p>
+                <p>Status: <strong style="color: #28a745;">Active & Connected</strong></p>
+                <p>Generated: <strong>12/23/2025, 11:31:56 PM</strong></p>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="number">5</div>
+                    <div class="label">Total Tables</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">5</div>
+                    <div class="label">Core Tables</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">Safe</div>
+                    <div class="label">SQL Injection</div>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <div class="table-header">📋 AUDIT_LOGS</div>
+                
+                <div class="table-info">
+                    <p><strong>Table Name:</strong> audit_logs</p>
+                    <p><strong>Type:</strong> BASE TABLE</p>
+                    <p><strong>Rows:</strong> 0 records</p>
+                    <p><strong>Collation:</strong> utf8mb4_unicode_ci</p>
+                </div>
+                
+                <h4 style="margin: 20px 0 10px 0; color: #333;">Columns:</h4>
+                <table class="columns-table">
+                    <thead>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Nullable</th>
+                            <th>Key</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td><strong>id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="pk">🔑 PRIMARY</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>user_id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>✅ Yes</td>
+                            <td><span class="fk">🔗 FOREIGN</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>action</strong></td>
+                            <td><code>varchar(255)</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>entity_type</strong></td>
+                            <td><code>varchar(50)</code></td>
+                            <td>✅ Yes</td>
+                            <td><span class="fk">🔗 FOREIGN</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>entity_id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>old_value</strong></td>
+                            <td><code>json</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>new_value</strong></td>
+                            <td><code>json</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>created_at</strong></td>
+                            <td><code>timestamp</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>CURRENT_TIMESTAMP</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-section">
+                <div class="table-header">📋 CANDIDATES</div>
+                
+                <div class="table-info">
+                    <p><strong>Table Name:</strong> candidates</p>
+                    <p><strong>Type:</strong> BASE TABLE</p>
+                    <p><strong>Rows:</strong> 0 records</p>
+                    <p><strong>Collation:</strong> utf8mb4_unicode_ci</p>
+                </div>
+                
+                <h4 style="margin: 20px 0 10px 0; color: #333;">Columns:</h4>
+                <table class="columns-table">
+                    <thead>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Nullable</th>
+                            <th>Key</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td><strong>id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="pk">🔑 PRIMARY</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>election_id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="fk">🔗 FOREIGN</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>name</strong></td>
+                            <td><code>varchar(255)</code></td>
+                            <td>❌ No</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>party</strong></td>
+                            <td><code>varchar(255)</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>bio</strong></td>
+                            <td><code>text</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>votes</strong></td>
+                            <td><code>int</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>0</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>created_at</strong></td>
+                            <td><code>timestamp</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>CURRENT_TIMESTAMP</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>updated_at</strong></td>
+                            <td><code>timestamp</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>CURRENT_TIMESTAMP</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-section">
+                <div class="table-header">📋 ELECTIONS</div>
+                
+                <div class="table-info">
+                    <p><strong>Table Name:</strong> elections</p>
+                    <p><strong>Type:</strong> BASE TABLE</p>
+                    <p><strong>Rows:</strong> 0 records</p>
+                    <p><strong>Collation:</strong> utf8mb4_unicode_ci</p>
+                </div>
+                
+                <h4 style="margin: 20px 0 10px 0; color: #333;">Columns:</h4>
+                <table class="columns-table">
+                    <thead>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Nullable</th>
+                            <th>Key</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td><strong>id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="pk">🔑 PRIMARY</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>title</strong></td>
+                            <td><code>varchar(255)</code></td>
+                            <td>❌ No</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>description</strong></td>
+                            <td><code>text</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>start_date</strong></td>
+                            <td><code>date</code></td>
+                            <td>❌ No</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>end_date</strong></td>
+                            <td><code>date</code></td>
+                            <td>❌ No</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>status</strong></td>
+                            <td><code>enum('pending','active','closed')</code></td>
+                            <td>✅ Yes</td>
+                            <td><span class="fk">🔗 FOREIGN</span></td>
+                            <td>pending</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>created_by</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="fk">🔗 FOREIGN</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>created_at</strong></td>
+                            <td><code>timestamp</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>CURRENT_TIMESTAMP</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>updated_at</strong></td>
+                            <td><code>timestamp</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>CURRENT_TIMESTAMP</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-section">
+                <div class="table-header">📋 USERS</div>
+                
+                <div class="table-info">
+                    <p><strong>Table Name:</strong> users</p>
+                    <p><strong>Type:</strong> BASE TABLE</p>
+                    <p><strong>Rows:</strong> 0 records</p>
+                    <p><strong>Collation:</strong> utf8mb4_unicode_ci</p>
+                </div>
+                
+                <h4 style="margin: 20px 0 10px 0; color: #333;">Columns:</h4>
+                <table class="columns-table">
+                    <thead>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Nullable</th>
+                            <th>Key</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td><strong>id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="pk">🔑 PRIMARY</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>email</strong></td>
+                            <td><code>varchar(255)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="fk">⭐ UNIQUE</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>password</strong></td>
+                            <td><code>varchar(255)</code></td>
+                            <td>❌ No</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>full_name</strong></td>
+                            <td><code>varchar(255)</code></td>
+                            <td>❌ No</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>national_id</strong></td>
+                            <td><code>varchar(20)</code></td>
+                            <td>✅ Yes</td>
+                            <td><span class="fk">⭐ UNIQUE</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>role</strong></td>
+                            <td><code>enum('user','admin')</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>user</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>created_at</strong></td>
+                            <td><code>timestamp</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>CURRENT_TIMESTAMP</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>updated_at</strong></td>
+                            <td><code>timestamp</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>CURRENT_TIMESTAMP</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-section">
+                <div class="table-header">📋 VOTES</div>
+                
+                <div class="table-info">
+                    <p><strong>Table Name:</strong> votes</p>
+                    <p><strong>Type:</strong> BASE TABLE</p>
+                    <p><strong>Rows:</strong> 0 records</p>
+                    <p><strong>Collation:</strong> utf8mb4_unicode_ci</p>
+                </div>
+                
+                <h4 style="margin: 20px 0 10px 0; color: #333;">Columns:</h4>
+                <table class="columns-table">
+                    <thead>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Nullable</th>
+                            <th>Key</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td><strong>id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="pk">🔑 PRIMARY</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>user_id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="fk">🔗 FOREIGN</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>election_id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="fk">🔗 FOREIGN</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>candidate_id</strong></td>
+                            <td><code>varchar(36)</code></td>
+                            <td>❌ No</td>
+                            <td><span class="fk">🔗 FOREIGN</span></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>created_at</strong></td>
+                            <td><code>timestamp</code></td>
+                            <td>✅ Yes</td>
+                            <td>-</td>
+                            <td>CURRENT_TIMESTAMP</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+        
+        <footer>
+            <p>📊 Database Schema Report for Secure Blue Voting System</p>
+            <p>Generated automatically from MySQL database</p>
+        </footer>
+    </div>
+</body>
+</html>
